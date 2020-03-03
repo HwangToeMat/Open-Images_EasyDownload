@@ -22,41 +22,40 @@ parser.add_argument("--annotation", default="", type=str,
                     help="path of 'xxx-annotations-bbox.csv'")
 parser.add_argument("--imageURL", default="", type=str,
                     help="path of imageURL file.(ex : 'xxx/train-images-boxable-with-rotation.csv')")
+parser.add_argument("--datapath", default="train_data", type=str)
 opt = parser.parse_args()
 
 
-def download(category=opt.category, set=opt.set, ndata=opt.ndata, label=opt.label, annotation=opt.annotation, imageURL=opt.imageURL):
-    """Download images in categories from flickr"""
+def download(category=opt.category, set=opt.set, ndata=opt.ndata, label=opt.label, annotation=opt.annotation, imageURL=opt.imageURL, datapath=opt.datapath):
 
     # Download or load the class names pandas DataFrame
-    kwargs = {'header': None, 'names': ['LabelID', 'LabelName']}
-    orig_url = "https://storage.googleapis.com/openimages/v5/class-descriptions-boxable.csv"
+    kwargs = {'header': None, 'names': ['LabelName', 'Category']}
+    orig_url = "class-descriptions-boxable.csv"
     class_names = pd.read_csv(
         class_names_fp, **kwargs) if class_names_fp else pd.read_csv(orig_url, **kwargs)
 
-    # TODO: setting index_col should not be necessary in this and the next section, update the save-to-disk code
     # Download or load the boxed image metadata pandas DataFrame
-    orig_url = "https://storage.googleapis.com/openimages/v6/oidv6-train-annotations-bbox.csv"
+    orig_url = "oidv6-train-annotations-bbox.csv"
     train_boxed = pd.read_csv(
         train_boxed_fp, index_col=0) if train_boxed_fp else pd.read_csv(orig_url)
 
     # Download or load the image ids metadata pandas DataFrame
-    orig_url = "https://storage.googleapis.com/openimages/2018_04/train/train-images-boxable-with-rotation.csv"
+    orig_url = "train-images-boxable-with-rotation.csv"
     image_ids = pd.read_csv(
         image_ids_fp, index_col=0) if image_ids_fp else pd.read_csv(orig_url)
 
     # Get category IDs for the given categories and sub-select train_boxed with them.
-    # label_map = dict(class_names.set_index('LabelName').loc[categories, 'LabelID']
-    #                  .to_frame().reset_index().set_index('LabelID')['LabelName'])
+    # label_map = dict(class_names.set_index('Category').loc[categories, 'LabelID']
+    #                  .to_frame().reset_index().set_index('LabelID')['Category'])
     # label_values = set(label_map.keys())
     # relevant_training_images = train_boxed[train_boxed.LabelName.isin(
     #     label_values)]
-    label_map = dict(class_names.set_index('LabelName').loc[[
-                     'Football', 'Person'], 'LabelID'].to_frame().reset_index().set_index('LabelID')['LabelName'])
-    label_map_1 = dict(class_names.set_index('LabelName').loc[[
-                       'Football'], 'LabelID'].to_frame().reset_index().set_index('LabelID')['LabelName'])
-    label_map_2 = dict(class_names.set_index('LabelName').loc[[
-                       'Person'], 'LabelID'].to_frame().reset_index().set_index('LabelID')['LabelName'])
+    label_map = dict(class_names.set_index('Category').loc[[
+                     'Football', 'Person'], 'LabelName'].to_frame().reset_index().set_index('LabelName')['Category'])
+    label_map_1 = dict(class_names.set_index('Category').loc[[
+                       'Football'], 'LabelName'].to_frame().reset_index().set_index('LabelName')['Category'])
+    label_map_2 = dict(class_names.set_index('Category').loc[[
+                       'Person'], 'LabelName'].to_frame().reset_index().set_index('LabelName')['Category'])
     label_values_1 = set(label_map_1.keys())
     label_values_2 = set(label_map_2.keys())
     Football_Data = dict(
@@ -91,16 +90,16 @@ def download(category=opt.category, set=opt.set, ndata=opt.ndata, label=opt.labe
     # p = t4.Package.browse(packagename, registry) if packagename in t4.list_packages(registry) else t4.Package()
 
     # Write the images to files, adding them to the package as we go along.
-    if not os.path.isdir("train_data/"):
-        os.mkdir("train_data/")
+    if not os.path.isdir(f"{datapath}/"):
+        os.mkdir(f"{datapath}/")
 
     for ((_, r), (_, url)) in zip(relevant_image_requests.iteritems(), relevant_flickr_urls.iteritems()):
         image_name = url.split("/")[-1]
-        _write_image_file(r, image_name)
+        _write_image(r, image_name, datapath)
 
-    if not os.path.isdir("train_data/bbox/"):
-        os.mkdir("train_data/bbox/")
-    relevant_training_images.to_csv('train_data/bbox/bbox_data.csv')
+    if not os.path.isdir(f"{datapath}/bbox/"):
+        os.mkdir(f"{datapath}/bbox/")
+    relevant_training_images.to_csv(f"{datapath}/bbox/bbox_data.csv")
 
 
 @ratelim.patient(5, 5)
@@ -119,9 +118,9 @@ def _download_image(url, pbar):
         return r
 
 
-def _write_image_file(r, image_name):
+def _write_image(r, image_name, datapath):
     """Write an image to a file"""
-    filename = f"train_data/{image_name}"
+    filename = f"{datapath}/{image_name}"
     with open(filename, "wb") as f:
         f.write(r.content)
 
