@@ -1,16 +1,23 @@
-"""Helper library for downloading open images categorically."""
-import sys
+import argparse
 import os
-
-# import t4
-
-import pandas as pd
+import sys
 import requests
-
-from tqdm import tqdm
 import ratelim
-from checkpoints.checkpoints import checkpoints
+import pandas as pd
+from tqdm-master import tqdm
+from checkpoints-master.checkpoints import checkpoints
 checkpoints.enable()
+
+# parser settings
+parser = argparse.ArgumentParser(
+    description="Helper library for downloading OpenImages(https://storage.googleapis.com/openimages/web/index.html) categorically.")
+parser.add_argument("--ndata", default=-1, type=int)
+parser.add_argument("--label", default="", type=str)
+parser.add_argument("--annotation", default="", type=str)
+parser.add_argument("--imageURL", default="", type=str)
+parser.add_argument('--category', default="", type=str)
+parser.add_argument('--category-sum', default="", type=str)
+parser.add_argument('--category-in', default="", type=str)
 
 
 def download(categories,  # packagename, registry,
