@@ -11,17 +11,21 @@ checkpoints.enable()
 # parser settings
 parser = argparse.ArgumentParser(
     description="Helper library for downloading OpenImages(https://storage.googleapis.com/openimages/web/index.html) categorically.")
-parser.add_argument("--ndata", default=-1, type=int)
-parser.add_argument("--label", default="", type=str)
-parser.add_argument("--annotation", default="", type=str)
-parser.add_argument("--imageURL", default="", type=str)
-parser.add_argument('--category', default="", type=str)
-parser.add_argument('--categorySum', default="", type=str)
-parser.add_argument('--categoryIn', default="", type=str)
+parser.add_argument('--category', default=[], type=list, help="list type")
+parser.add_argument('--set', default="sum", type=str,
+                    help="If you want 'sum of sets' : 'sum' else you wnat 'intersection' to 'inter'")
+parser.add_argument("--ndata", default=-1, type=int,
+                    help="number of data you want")
+parser.add_argument("--label", default="", type=str,
+                    help="path of 'class-descriptions-boxable.csv'")
+parser.add_argument("--annotation", default="", type=str,
+                    help="path of 'xxx-annotations-bbox.csv'")
+parser.add_argument("--imageURL", default="", type=str,
+                    help="path of imageURL file.(ex : 'xxx/train-images-boxable-with-rotation.csv')")
+opt = parser.parse_args()
 
 
-def download(categories,  # packagename, registry,
-             class_names_fp=None, train_boxed_fp=None, image_ids_fp=None):
+def download(category=opt.category, set=opt.set, ndata=opt.ndata, label=opt.label, annotation=opt.annotation, imageURL=opt.imageURL):
     """Download images in categories from flickr"""
 
     # Download or load the class names pandas DataFrame
