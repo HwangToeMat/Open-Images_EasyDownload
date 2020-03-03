@@ -1,0 +1,6 @@
+[run]
+branch = True
+omit =
+    tqdm/tests/*
+[report]
+show_missing = True
