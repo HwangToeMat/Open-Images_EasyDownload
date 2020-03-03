@@ -16,8 +16,8 @@ parser.add_argument("--label", default="", type=str)
 parser.add_argument("--annotation", default="", type=str)
 parser.add_argument("--imageURL", default="", type=str)
 parser.add_argument('--category', default="", type=str)
-parser.add_argument('--category-sum', default="", type=str)
-parser.add_argument('--category-in', default="", type=str)
+parser.add_argument('--categorySum', default="", type=str)
+parser.add_argument('--categoryIn', default="", type=str)
 
 
 def download(categories,  # packagename, registry,
