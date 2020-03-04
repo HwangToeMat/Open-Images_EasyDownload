@@ -12,7 +12,7 @@ checkpoints.enable()
 parser = argparse.ArgumentParser(
     description="Helper library for downloading OpenImages(https://storage.googleapis.com/openimages/web/index.html) categorically.")
 parser.add_argument('--category', action='append', help="list type")
-parser.add_argument('--set', default="sum", type=str,
+parser.add_argument('--type', default="sum", type=str,
                     help="If you want 'sum of sets' : 'sum' else if you want 'intersection' : 'inter'")
 parser.add_argument("--ndata", default=-1, type=int,
                     help="number of data you want")
@@ -41,11 +41,11 @@ def main():
     imageURL = pd.read_csv(opt.imageURL)
 
     # Preprocess the data
-    print(f'===>> Category : {opt.category}, Type : {opt.set}')
-    if opt.set == "inter":
+    if opt.type == "inter":
         if opt.category == None:
-            print('===>> Please enter a category')
+            print('===>> Please enter the categories to create an intersection.')
             return False
+        print(f'===>> Category : {opt.category}, Type : {opt.type}')
         Empty_data = True
         for ct in opt.category:
             label_map = dict(label.set_index('Category').loc[[ct], 'LabelName'].to_frame(
@@ -66,9 +66,11 @@ def main():
             subset=['OriginalURL']).iloc[:opt.ndata, :].loc[:, 'OriginalURL']
     else:
         if opt.category == None:
+            print(f'===>> All data, Type : {opt.type}')
             label_map = dict(label.set_index('Category').loc[:, 'LabelName'].to_frame(
             ).reset_index().set_index('LabelName')['Category'])
         else:
+            print(f'===>> Category : {opt.category}, Type : {opt.type}')
             label_map = dict(label.set_index('Category').loc[opt.category, 'LabelName'].to_frame(
             ).reset_index().set_index('LabelName')['Category'])
         label_values = set(label_map.keys())
