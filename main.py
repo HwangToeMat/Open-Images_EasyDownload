@@ -11,7 +11,7 @@ checkpoints.enable()
 # parser settings
 parser = argparse.ArgumentParser(
     description="Helper library for downloading OpenImages(https://storage.googleapis.com/openimages/web/index.html) categorically.")
-parser.add_argument('--category', default=[], type=list, help="list type")
+parser.add_argument('--category', action='append', help="list type")
 parser.add_argument('--set', default="sum", type=str,
                     help="If you want 'sum of sets' : 'sum' else if you want 'intersection' : 'inter'")
 parser.add_argument("--ndata", default=-1, type=int,
@@ -43,7 +43,7 @@ def main():
     # Preprocess the data
     print(f'===>> Category : {opt.category}, Type : {opt.set}')
     if opt.set == "inter":
-        if opt.category == []:
+        if opt.category == None:
             print('===>> Please enter a category')
             return False
         Empty_data = True
@@ -65,7 +65,7 @@ def main():
         URL_data = URL_data.drop_duplicates(['OriginalURL']).dropna(
             subset=['OriginalURL']).iloc[:opt.ndata, :].loc[:, 'OriginalURL']
     else:
-        if opt.category == []:
+        if opt.category == None:
             label_map = dict(label.set_index('Category').loc[:, 'LabelName'].to_frame(
             ).reset_index().set_index('LabelName')['Category'])
         else:
