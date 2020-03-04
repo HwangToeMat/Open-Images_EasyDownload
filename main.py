@@ -16,11 +16,11 @@ parser.add_argument('--set', default="sum", type=str,
                     help="If you want 'sum of sets' : 'sum' else if you want 'intersection' : 'inter'")
 parser.add_argument("--ndata", default=-1, type=int,
                     help="number of data you want")
-parser.add_argument("--label", default="class-descriptions-boxable.csv", type=str,
+parser.add_argument("--label", default="https://storage.googleapis.com/openimages/v5/class-descriptions-boxable.csv", type=str,
                     help="path of 'class-descriptions-boxable.csv'")
-parser.add_argument("--annotation", default="oidv6-train-annotations-bbox.csv", type=str,
+parser.add_argument("--annotation", default="https://storage.googleapis.com/openimages/v6/oidv6-train-annotations-bbox.csv", type=str,
                     help="path of 'xxx-annotations-bbox.csv'")
-parser.add_argument("--imageURL", default="train-images-boxable-with-rotation.csv", type=str,
+parser.add_argument("--imageURL", default="https://storage.googleapis.com/openimages/2018_04/train/train-images-boxable-with-rotation.csv", type=str,
                     help="path of imageURL file.(ex : 'xxx/train-images-boxable-with-rotation.csv')")
 parser.add_argument("--datapath", default="train_data", type=str)
 
@@ -51,17 +51,19 @@ def main():
             label_map = dict(label.set_index('Category').loc[[ct], 'LabelName'].to_frame(
             ).reset_index().set_index('LabelName')['Category'])
             label_values = set(label_map.keys())
-            Total_data = annotation[annotation.LabelName.isin(label_values)]
-            temp = Total_data.set_index('ImageID').join(imageURL.set_index(
-                'ImageID')).drop_duplicates(['OriginalURL'])
+            temp = annotation[annotation.LabelName.isin(label_values)]
+            temp = temp.set_index('ImageID').join(imageURL.set_index(
+                'ImageID'))
             if Empty_data:
                 URL_data = temp
+                Total_data = temp
                 Empty_data = False
                 continue
+            Total_data = pd.concat([Total_data, temp])
             URL_data = pd.merge(URL_data, temp, on='ImageID', how='inner').rename(
                 columns={"OriginalURL_x": "OriginalURL"})
-        URL_data.iloc[:opt.ndata, :].dropna(
-            subset=['OriginalURL']).loc[:, 'OriginalURL']
+        URL_data = URL_data.drop_duplicates(['OriginalURL']).dropna(
+            subset=['OriginalURL']).iloc[:opt.ndata, :].loc[:, 'OriginalURL']
     else:
         if opt.category == []:
             label_map = dict(label.set_index('Category').loc[:, 'LabelName'].to_frame(
@@ -71,8 +73,10 @@ def main():
             ).reset_index().set_index('LabelName')['Category'])
         label_values = set(label_map.keys())
         Total_data = annotation[annotation.LabelName.isin(label_values)]
-        URL_data = Total_data.set_index('ImageID').join(imageURL.set_index(
-            'ImageID')).drop_duplicates(['OriginalURL']).iloc[:opt.ndata, :].loc[:, 'OriginalURL']
+        Total_data = Total_data.set_index(
+            'ImageID').join(imageURL.set_index('ImageID'))
+        URL_data = Total_data.drop_duplicates(['OriginalURL']).dropna(
+            subset=['OriginalURL']).iloc[:opt.ndata, :].loc[:, 'OriginalURL']
 
     # Print remaining_todo
     remaining_todo = len(URL_data) if checkpoints.results is None else\
@@ -90,8 +94,13 @@ def main():
     if not os.path.isdir(f"{opt.datapath}/"):
         os.mkdir(f"{opt.datapath}/")
     for ((_, r), (_, url)) in zip(Request_data.iteritems(), URL_data.iteritems()):
-        image_name = url.split("/")[-1]
-        _write_image(r, image_name, opt.datapath)
+        try:
+            r.raise_for_status()
+            image_name = url.split("/")[-1]
+            _write_image(r, image_name, opt.datapath)
+        except:
+            continue
+
     print("===>> Save the images to files")
 
     # Write the bbox data to csv file.
@@ -104,17 +113,9 @@ def main():
 @ratelim.patient(5, 5)
 def _download_image(url, progress_bar):
     """Download a single image from a URL, rate-limited to once per second"""
-    try:
-        r = requests.get(url)
-        r.raise_for_status()
-        progress_bar.update(1)
-        return r
-    except:
-        r = requests.get(
-            'https://live.staticflickr.com/1/91/227545714_828efc7148_z.jpg')
-        r.raise_for_status()
-        progress_bar.update(1)
-        return r
+    r = requests.get(url)
+    progress_bar.update(1)
+    return r
 
 
 def _write_image(r, image_name, datapath):
