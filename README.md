@@ -1,8 +1,12 @@
 # Open-Images_EasyDownload
-Helper library for downloading OpenImages(https://storage.googleapis.com/openimages/web/index.html) categorically. 
-You can easily get data with Bounding Boxes (600 classes), Object Segmentations, Visual Relationships, and Localized Narratives.
+**Helper library for downloading OpenImages(https://storage.googleapis.com/openimages/web/index.html) categorically.**
+
+Open Images is the largest annotated image dataset in many regards, for use in training the latest deep convolutional neural networks for computer vision tasks. But, sometimes large capacities of 'Open Images' make it difficult to find only the data you need.
+
+***Then you can easily get data with this code, include Bounding Boxes (600 classes), Object Segmentations, Visual Relationships, and Localized Narratives.***
 ![OpenImages](image1.png)
-- Open Images is the largest annotated image dataset in many regards, for use in training the latest deep convolutional neural networks for computer vision tasks.
+
+
 
 ## Settings
 This code need 'ratelim', 'tqdm' and 'checkpoint'. 'tqdm' and 'checkpoint' are included in this repository. But ***you need to install 'ratelim' using the code below.***
