@@ -8,7 +8,7 @@ Open Images is the largest annotated image dataset in many regards, for use in t
 **Then you can easily get data with this code including Bounding Boxes (600 classes), Object Segmentations, Visual Relationships, and Localized Narratives.**
 
 ## Settings
-This code needs 'ratelim', 'tqdm' and 'checkpoint'. Both 'tqdm' and 'checkpoint' are included in this repository. But ***you need to install 'ratelim' using the code below.***
+This code needs 'ratelim', 'tqdm' and 'checkpoint'. Both 'tqdm' and 'checkpoint' are included in this repository. But ***you need to install a 'ratelim' using the code below before running.***
 ```
 pip install ratelim
 ```
@@ -34,7 +34,7 @@ optional arguments:
   --imageURL IMAGEURL   Path of imageURL file.
   --savepath SAVEPATH   Path where downloaded data will be saved
 ```
-### An example of usage is shown as follows. (*If you use this code at colab, add ! at the beginning.*)
+### An example of usage is shown as follows. (*If you use this code at colab, add ! at the beginning of the line.*)
 ```
 python main.py --category "Football" --category "Person" --type "inter" --savepath "Football_data"
 ```
