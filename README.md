@@ -8,7 +8,7 @@ Open Images is the largest annotated image dataset in many regards, for use in t
 **Then you can easily get data with this code including Bounding Boxes (600 classes), Object Segmentations, Visual Relationships, and Localized Narratives.**
 
 ## Settings
-This code needs 'ratelim', 'tqdm' and 'checkpoint'. Both 'tqdm' and 'checkpoint' are included in this repository. But ***you need to install a 'ratelim' using the code below before running.***
+This code needs 'ratelim', 'tqdm' and 'checkpoint'. Both 'tqdm' and 'checkpoint' are included in this repository. But you need to ***install a 'ratelim' using the code below*** before running.
 ```
 pip install ratelim
 ```
