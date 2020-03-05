@@ -11,18 +11,20 @@ checkpoints.enable()
 # parser settings
 parser = argparse.ArgumentParser(
     description="Helper library for downloading OpenImages(https://storage.googleapis.com/openimages/web/index.html) categorically.")
-parser.add_argument('--category', action='append', help="list type")
+parser.add_argument('--category', action='append',
+                    help="Enter the category you want. If you want multi-category, please tag each category.")
 parser.add_argument('--type', default="sum", type=str,
-                    help="If you want 'sum of sets' : 'sum' else if you want 'intersection' : 'inter'")
+                    help="Enter the type of data you want. If you want 'Union data' enter 'sum' else if you want 'intersection data' enter 'inter'.")
 parser.add_argument("--ndata", default=-1, type=int,
-                    help="number of data you want")
+                    help="Number of data you want")
 parser.add_argument("--label", default="https://storage.googleapis.com/openimages/v5/class-descriptions-boxable.csv", type=str,
-                    help="path of 'class-descriptions-boxable.csv'")
+                    help="Path of class descriptions file.")
 parser.add_argument("--annotation", default="https://storage.googleapis.com/openimages/v6/oidv6-train-annotations-bbox.csv", type=str,
-                    help="path of 'xxx-annotations-bbox.csv'")
+                    help="Path of bbox annotation file.")
 parser.add_argument("--imageURL", default="https://storage.googleapis.com/openimages/2018_04/train/train-images-boxable-with-rotation.csv", type=str,
-                    help="path of imageURL file.(ex : 'xxx/train-images-boxable-with-rotation.csv')")
-parser.add_argument("--datapath", default="train_data", type=str)
+                    help="Path of imageURL file.")
+parser.add_argument("--savepath", default="train_data",
+                    type=str, help="Path where downloaded data will be saved")
 
 
 def main():
@@ -93,22 +95,22 @@ def main():
         progress_bar.close()
 
     # Write the images to files, adding them to the package as we go along.
-    if not os.path.isdir(f"{opt.datapath}/"):
-        os.mkdir(f"{opt.datapath}/")
+    if not os.path.isdir(f"{opt.savepath}/images/"):
+        os.mkdir(f"{opt.savepath}/images/")
     for ((_, r), (_, url)) in zip(Request_data.iteritems(), URL_data.iteritems()):
         try:
             r.raise_for_status()
             image_name = url.split("/")[-1]
-            _write_image(r, image_name, opt.datapath)
+            _write_image(r, image_name, f"{opt.savepath}/images/")
         except:
             continue
 
     print("===>> Save the images to files")
 
     # Write the bbox data to csv file.
-    if not os.path.isdir(f"{opt.datapath}/bbox/"):
-        os.mkdir(f"{opt.datapath}/bbox/")
-    Total_data.to_csv(f"{opt.datapath}/bbox/bbox_data.csv")
+    if not os.path.isdir(f"{opt.savepath}/bbox/"):
+        os.mkdir(f"{opt.savepath}/bbox/")
+    Total_data.to_csv(f"{opt.savepath}/bbox/bbox_data.csv")
     print("===>> Save the bbox data to csv file")
 
 
@@ -120,9 +122,9 @@ def _download_image(url, progress_bar):
     return r
 
 
-def _write_image(r, image_name, datapath):
+def _write_image(r, image_name, savepath):
     """Write an image to a file"""
-    filename = f"{datapath}/{image_name}"
+    filename = f"{savepath}/{image_name}"
     with open(filename, "wb") as f:
         f.write(r.content)
 
