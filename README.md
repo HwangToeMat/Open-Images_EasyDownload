@@ -54,6 +54,7 @@ Information of bbox is saved at "{--savepath}/bbox/bbox.csv".
 ### If you want to download more faster, change parameters of ratelim in line 119.
 ```
 ### Too many calls in a short time can lead to missing data.
+
 @ratelim.patient(5, 5) # 5 times in 5 seconds (Gets called at most every 1. seconds)
 @ratelim.patient(10, 5) # 10 times in 5 seconds (Gets called at most every 0.5 seconds)
 ```
