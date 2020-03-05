@@ -38,9 +38,9 @@ optional arguments:
 ```
 python main.py --category "Football" --category "Person" --type "inter" --savepath "Football_data"
 ```
-This example can get images that have **'Football category' and 'Person category' on each image.**
+In this example, you can get images that have **both 'football category' and 'personal category' in each image.**
 
-If you enter **"sum"** instead of "inter", you can get images that have **'Football category' or 'Person category' on each image.**
+If you enter **"sum"** instead of "inter", you can get images that have **'Football category' or 'Person category' in each image.**
 
 ## etc...
 Image is saved at "{--savepath}/images/[imageURL].jpg".
