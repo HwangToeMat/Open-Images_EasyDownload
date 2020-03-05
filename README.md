@@ -48,7 +48,7 @@ Image is saved at "{--savepath}/images/[imageURL].jpg".
 
 Information of bbox is saved at "{--savepath}/bbox/bbox.csv".
 
-***You can use name of imagefile and column('OriginalURL') of 'bbox.csv' to match annotation to image***
+**You can use name of imagefile and column('OriginalURL') of 'bbox.csv' to match annotation to image**
 
 ### If you want download more faster, change parameters of ratelim in line 117.
 ```
