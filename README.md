@@ -5,7 +5,7 @@ Open Images is the largest annotated image dataset in many regards, for use in t
 
 ![OpenImages](image1.png)
 
-***Then you can easily get data with this code, include Bounding Boxes (600 classes), Object Segmentations, Visual Relationships, and Localized Narratives.***
+**Then you can easily get data with this code, include Bounding Boxes (600 classes), Object Segmentations, Visual Relationships, and Localized Narratives.**
 
 ## Settings
 This code need 'ratelim', 'tqdm' and 'checkpoint'. 'tqdm' and 'checkpoint' are included in this repository. But ***you need to install 'ratelim' using the code below.***
