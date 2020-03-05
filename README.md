@@ -1,7 +1,7 @@
 # Open-Images_EasyDownload
 Helper library for downloading OpenImages(https://storage.googleapis.com/openimages/web/index.html) categorically.
 ## Settings
-This code need 'ratelim', 'tqdm' and 'checkpoint'. 'tqdm' and 'checkpoint' are included in this repository. But ***you need to install 'ratelim' using the code below***
+This code need 'ratelim', 'tqdm' and 'checkpoint'. 'tqdm' and 'checkpoint' are included in this repository. But ***you need to install 'ratelim' using the code below.***
 ```
 pip install ratelim
 ```
