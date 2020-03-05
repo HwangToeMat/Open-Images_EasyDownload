@@ -95,6 +95,8 @@ def main():
         progress_bar.close()
 
     # Write the images to files, adding them to the package as we go along.
+    if not os.path.isdir(f"{opt.savepath}/"):
+        os.mkdir(f"{opt.savepath}/")
     if not os.path.isdir(f"{opt.savepath}/images/"):
         os.mkdir(f"{opt.savepath}/images/")
     for ((_, r), (_, url)) in zip(Request_data.iteritems(), URL_data.iteritems()):
