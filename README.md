@@ -36,7 +36,7 @@ This example can get images that have **'Football category' and 'Person category
 
 If you enter **"sum"** instead of "inter", you can get images that have **'Football category' or 'Person category' on each image.**
 
-## etc..
+## etc...
 Image is saved at "{--savepath}/images/[imageURL].jpg".
 
 Information of bbox is saved at "{--savepath}/bbox/bbox.csv".
