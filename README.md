@@ -34,8 +34,9 @@ optional arguments:
   --imageURL IMAGEURL   Path of imageURL file.
   --savepath SAVEPATH   Path where downloaded data will be saved
 ```
-### An example of usage is shown as follows. (*If you use this code at colab, add '!' at the beginning of the line.*)
+### An example of usage is shown as follows. 
 ```
+*** If you use this code at colab, add '!' at the beginning of the line. ***
 python main.py --category "Football" --category "Person" --type "inter" --savepath "Football_data"
 ```
 In this example, you can get images that have **both 'football category' and 'personal category' in each image.**
