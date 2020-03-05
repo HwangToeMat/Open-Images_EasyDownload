@@ -35,8 +35,8 @@ optional arguments:
   --savepath SAVEPATH   Path where downloaded data will be saved
 ```
 ### An example of usage is shown as follows. 
+***If you use this code at colab, add '!' at the beginning of the line.***
 ```
-*** If you use this code at colab, add '!' at the beginning of the line. ***
 python EasyDownloader.py --category "Football" --category "Person" --type "inter" --savepath "Football_data"
 ```
 In this example, you can get images that have **both 'football category' and 'personal category' in each image.**
@@ -51,8 +51,8 @@ Information of bbox is saved at "{--savepath}/bbox/bbox.csv".
 **You can use name of imagefile and column('OriginalURL') of 'bbox.csv' to match annotation to image.**
 
 ### If you want to download more faster, change parameters of ratelim in line 119.
+***Too many calls in a short time can lead to missing data.***
 ```
-*** Too many calls in a short time can lead to missing data. ***
 @ratelim.patient(5, 5) # 5 times in 5 seconds (Gets called at most every 1. seconds)
 @ratelim.patient(10, 5) # 10 times in 5 seconds (Gets called at most every 0.5 seconds)
 ```
