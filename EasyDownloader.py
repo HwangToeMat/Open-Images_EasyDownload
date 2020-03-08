@@ -112,6 +112,9 @@ def main():
     # Write the bbox data to csv file.
     if not os.path.isdir(f"{opt.savepath}/bbox/"):
         os.mkdir(f"{opt.savepath}/bbox/")
+    label_data = label.set_index(
+        'Category').loc[opt.category, 'LabelName'].to_frame().reset_index()
+    label_data.to_csv(f"{opt.savepath}/bbox/label_data.csv")
     Total_data.to_csv(f"{opt.savepath}/bbox/bbox_data.csv")
     print("===>> Save the bbox data to csv file")
 
