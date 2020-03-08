@@ -47,11 +47,13 @@ If you enter **"sum"** instead of "inter", you can get images that have **'Footb
 ## etc...
 Image is saved at "{--savepath}/images/[imageURL].jpg".
 
-Information of bbox is saved at "{--savepath}/bbox/bbox.csv".
+Information of bbox is saved at "{--savepath}/bbox/bbox_data.csv".
+
+Information of label is saved at "{--savepath}/bbox/label_data.csv".
 
 **You can use name of imagefile and column('OriginalURL') of 'bbox.csv' to match annotation to image.**
 
-### If you want to download more faster, change parameters of ratelim in line 119.
+### If you want to download more faster, change parameters of ratelim in line 122.
 ```
 ### Too many calls in a short time can lead to missing data.
 
