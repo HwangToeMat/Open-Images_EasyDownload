@@ -3,7 +3,7 @@
 
 Open Images is the largest annotated image dataset in many regards, for use in training the latest deep convolutional neural networks for computer vision tasks. But, sometimes large capacities of 'Open Images' make it difficult to find only the data you need.
 
-![OpenImages](image1.png)
+![OpenImages](image1.jpg)
 
 **Then you can easily get data with this code including Bounding Boxes (600 classes), Object Segmentations, Visual Relationships, and Localized Narratives.**
 
