@@ -1,4 +1,4 @@
-# Open-Images_EasyDownload
+# Open-Images_EasyDownload [![HitCount](http://hits.dwyl.com/HwangToeMat/Open-Images_EasyDownload.svg)]
 **Helper library for downloading OpenImages(https://storage.googleapis.com/openimages/web/index.html) categorically.**
 
 Open Images is the largest annotated image dataset in many regards, for use in training the latest deep convolutional neural networks for computer vision tasks. But, sometimes large capacities of 'Open Images' make it difficult to find only the data you need.
