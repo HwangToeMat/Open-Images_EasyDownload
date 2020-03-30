@@ -1,5 +1,4 @@
-# Open-Images_EasyDownload 
-![HitCount](http://hits.dwyl.com/HwangToeMat/Open-Images_EasyDownload.svg)
+# Open-Images_EasyDownload ![HitCount](http://hits.dwyl.com/HwangToeMat/Open-Images_EasyDownload.svg)
 
 **Helper library for downloading OpenImages(https://storage.googleapis.com/openimages/web/index.html) categorically.**
 
